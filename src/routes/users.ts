@@ -1,7 +1,9 @@
-import { PrismaClient } from '@prisma/client'
 import { FastifyInstance } from 'fastify'
+import { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
+
+import { checkTokenExists } from '../middlewares/check-token-exists'
 
 const prisma = new PrismaClient()
 
@@ -58,7 +60,17 @@ export async function usersRoutes(app: FastifyInstance) {
       })
 
       if (user && (await bcrypt.compare(password, user.password))) {
-        return reply.send({ message: 'Login successful', user })
+        const token = app.jwt.sign({ id: user.id, email: user.email })
+
+        reply.setCookie('token', token, {
+          httpOnly: true,
+          secure: true,
+          path: '/',
+          sameSite: 'None',
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+        })
+
+        return reply.send({ message: 'Login successful', token })
       } else {
         return reply.status(401).send({ error: 'Invalid email or password' })
       }
