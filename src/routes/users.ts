@@ -1,4 +1,5 @@
-import { FastifyInstance } from 'fastify'
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+import { z } from 'zod'
 import { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
@@ -8,6 +9,31 @@ import { checkTokenExists } from '../middlewares/check-token-exists'
 const prisma = new PrismaClient()
 
 export async function usersRoutes(app: FastifyInstance) {
+app.get('/', async () => {
+    const users = await prisma.user.findMany()
+    return users
+  })
+
+  app.get(
+    '/delete',
+    {
+      preHandler: [checkTokenExists],
+    },
+    async (request, reply) => {
+      const user = request.user
+      const { id } = user
+
+      try {
+        await prisma.user.delete({
+          where: { id },
+        })
+        return reply.send({ message: 'User deleted successfully', user })
+      } catch (error) {
+        return reply.status(500).send({ error: 'User deletion failed' })
+      }
+    },
+  )
+
   app.post('/create', async (request, reply) => {
     const createUserBodySchema = z.object({
       name: z.string(),
