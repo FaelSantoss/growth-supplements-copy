@@ -1,14 +1,18 @@
-import { FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function checkTokenExists(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const token = await request.jwtVerify()
+  try {
+    const token = request.cookies.token
+    if (!token) {
+      return reply.status(401).send({ error: 'Token not provided' })
+    }
 
-  if (!token) {
-    return reply.send({
-      error: 'Unauthorized',
-    })
+    const user = await request.jwtVerify()
+    request.user = user
+  } catch (error) {
+    reply.status(401).send({ error: 'Invalid token' })
   }
 }

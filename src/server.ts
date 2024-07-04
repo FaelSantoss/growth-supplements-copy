@@ -1,13 +1,14 @@
 import fastify from 'fastify'
-import fastifyJWT from 'fastify-jwt'
-import fastifyCookie from 'fastify-cookie'
+import fastifyJwt from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
+
 import { usersRoutes } from './routes/users'
 
 const app = fastify()
 
 app.register(fastifyCookie)
 
-app.register(fastifyJWT, {
+app.register(fastifyJwt, {
   secret: 'your-secret-key',
   cookie: {
     cookieName: 'token',
