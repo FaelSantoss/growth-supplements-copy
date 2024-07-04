@@ -3,8 +3,8 @@
 ## Autenticação e Autorização
 - [ X ] **Registro de Usuário**: Endpoint para criação de novos usuários. Inclui validação de dados de entrada como e-mail e senha.
 - [ X ] **Login de Usuário**: Endpoint para autenticação de usuários, gerando e gerenciando tokens JWT para sessões.
-- [ ] **Recuperação de Senha**: Endpoint para solicitação de redefinição de senha e envio de e-mail com link de redefinição.
-- [ ] **Autorização**: Middleware para verificar permissões de acesso em rotas protegidas.
+- [ X ] **Recuperação de Senha**: Endpoint para solicitação de redefinição de senha.
+- [ X ] **Autorização**: Middleware para verificar permissões de acesso em rotas protegidas.
 
 ## Gestão de Produtos
 - [ ] **CRUD de Produtos**: Endpoints para criação, leitura, atualização e exclusão de produtos, incluindo validação de dados e gerenciamento de imagens.

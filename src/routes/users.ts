@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { PrismaClient } from '@prisma/client'
-import { z } from 'zod'
 import bcrypt from 'bcrypt'
 
 import { checkTokenExists } from '../middlewares/check-token-exists'
@@ -9,7 +8,7 @@ import { checkTokenExists } from '../middlewares/check-token-exists'
 const prisma = new PrismaClient()
 
 export async function usersRoutes(app: FastifyInstance) {
-app.get('/', async () => {
+  app.get('/', async () => {
     const users = await prisma.user.findMany()
     return users
   })
@@ -102,6 +101,43 @@ app.get('/', async () => {
       }
     } catch (error) {
       reply.status(500).send({ error: 'Unable to login' })
+    }
+  })
+
+  app.post('/reset-password', async (request, reply) => {
+    const resetPasswordSchema = z
+      .object({
+        email: z.string().email({ message: 'Invalid email address' }),
+        newPassword: z.string().refine(
+          (value) => {
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(
+              value,
+            )
+          },
+          {
+            message:
+              'Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, and one symbol',
+          },
+        ),
+        confirmNewPassword: z.string(),
+      })
+      .refine((data) => data.newPassword === data.confirmNewPassword, {
+        message: "Passwords don't match",
+        path: ['confirmNewPassword'],
+      })
+
+    const { email, newPassword } = resetPasswordSchema.parse(request.body)
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { email },
+        data: { password: hashedPassword },
+      })
+      return reply.send(updatedUser)
+    } catch (error) {
+      return reply.status(500).send({ error: 'Unable to update password' })
     }
   })
 }
