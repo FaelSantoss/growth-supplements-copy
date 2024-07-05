@@ -3,6 +3,10 @@ import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 
 import { usersRoutes } from './routes/users'
+import { productRoutes } from './routes/products'
+import { categoryRoutes } from './routes/category'
+
+export const prisma = new PrismaClient()
 
 const app = fastify()
 

@@ -1,11 +1,9 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
-import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
+import { prisma } from '../server'
 import { checkTokenExists } from '../middlewares/check-token-exists'
-
-const prisma = new PrismaClient()
 
 export async function usersRoutes(app: FastifyInstance) {
   app.get('/', async () => {
