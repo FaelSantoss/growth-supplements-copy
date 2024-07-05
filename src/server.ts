@@ -1,6 +1,7 @@
 import fastify from 'fastify'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+import { PrismaClient } from '@prisma/client'
 
 import { usersRoutes } from './routes/users'
 import { productRoutes } from './routes/products'
@@ -21,6 +22,14 @@ app.register(fastifyJwt, {
 
 app.register(usersRoutes, {
   prefix: 'users',
+})
+
+app.register(productRoutes, {
+  prefix: 'products',
+})
+
+app.register(categoryRoutes, {
+  prefix: 'category',
 })
 
 app
