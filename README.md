@@ -7,7 +7,7 @@
 - [ X ] **Autorização**: Middleware para verificar permissões de acesso em rotas protegidas.
 
 ## Gestão de Produtos
-- [ ] **CRUD de Produtos**: Endpoints para criação, leitura, atualização e exclusão de produtos, incluindo validação de dados e gerenciamento de imagens.
+- [ X ] **CRUD de Produtos**: Endpoints para criação, leitura, atualização e exclusão de produtos, incluindo validação de dados.
 - [ X ] **Categorias de Produtos**: Endpoints para gerenciamento de categorias (criação, leitura, atualização, exclusão).
 - [ ] **Busca e Filtros de Produtos**: Endpoint para busca de produtos com filtros por categoria, preço, popularidade, etc.
 

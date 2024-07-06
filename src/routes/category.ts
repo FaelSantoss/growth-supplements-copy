@@ -11,7 +11,7 @@ export async function categoryRoutes(app: FastifyInstance) {
 
   app.post('/create', async (request, reply) => {
     const createCategoryBodySchema = z.object({
-      name: string(),
+      name: z.string(),
     })
 
     const { name } = createCategoryBodySchema.parse(request.body)
@@ -24,11 +24,11 @@ export async function categoryRoutes(app: FastifyInstance) {
   })
 
   app.delete('/delete', async (request, reply) => {
-    const createCategoryBodySchema = z.object({
-      name: string(),
+    const deleteCategoryBodySchema = z.object({
+      name: z.string(),
     })
 
-    const { name } = createCategoryBodySchema.parse(request.body)
+    const { name } = deleteCategoryBodySchema.parse(request.body)
     try {
       await prisma.category.delete({
         where: { name },
@@ -40,12 +40,12 @@ export async function categoryRoutes(app: FastifyInstance) {
   })
 
   app.put('/update', async (request, reply) => {
-    const updateCategoryBodyShema = z.object({
-      name: string(),
-      newName: string(),
+    const updateCategoryBodySchema = z.object({
+      name: z.string(),
+      newName: z.string(),
     })
 
-    const { name, newName } = updateCategoryBodyShema.parse(request.body)
+    const { name, newName } = updateCategoryBodySchema.parse(request.body)
 
     try {
       const updateCategory = await prisma.category.update({
@@ -53,8 +53,10 @@ export async function categoryRoutes(app: FastifyInstance) {
         data: { name: newName },
       })
       return reply.send(updateCategory)
-    } catch {
-      return reply.status(500).send({ error: 'Unable  to update category' })
+    } catch (error) {
+      return reply
+        .status(500)
+        .send({ error: 'Unable to update category', details: error.message })
     }
   })
 }
