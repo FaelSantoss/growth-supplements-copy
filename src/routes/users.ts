@@ -102,7 +102,7 @@ export async function usersRoutes(app: FastifyInstance) {
     }
   })
 
-  app.post('/reset-password', async (request, reply) => {
+  app.put('/reset-password', async (request, reply) => {
     const resetPasswordSchema = z
       .object({
         email: z.string().email({ message: 'Invalid email address' }),
