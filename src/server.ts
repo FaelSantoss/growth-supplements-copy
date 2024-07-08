@@ -1,6 +1,7 @@
 import fastify from 'fastify'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+
 import { PrismaClient } from '@prisma/client'
 
 import { usersRoutes } from './routes/users'
@@ -10,6 +11,17 @@ import { categoryRoutes } from './routes/category'
 export const prisma = new PrismaClient()
 
 const app = fastify()
+
+app.addHook('onRequest', (req, reply, done) => {
+  reply.header('Access-Control-Allow-Origin', '*')
+  reply.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  reply.header('Access-Control-Allow-Headers', 'Content-Type')
+  if (req.method === 'OPTIONS') {
+    reply.send()
+  } else {
+    done()
+  }
+})
 
 app.register(fastifyCookie)
 
