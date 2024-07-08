@@ -71,8 +71,8 @@ export async function productRoutes(app: FastifyInstance) {
 
   app.put('/update', async (request, reply) => {
     const updateProductBodySchema = z.object({
-      name: z.string(), // Usado para identificar o produto a ser atualizado
-      newName: z.string().optional(), // Novo nome do produto, se aplicável
+      name: z.string(),
+      newName: z.string().optional(),
       description: z.string().optional(),
       price: z.number().optional(),
       imageUrl: z.string().optional(),
@@ -115,6 +115,57 @@ export async function productRoutes(app: FastifyInstance) {
     } catch (error) {
       console.error('Error updating product:', error)
       reply.status(500).send({ error: 'Failed to update product' })
+    }
+  })
+
+  app.post('/filter', async (request, reply) => {
+    const filterProductBodySchema = z.object({
+      categoryName: z.string().optional(),
+      priceMax: z.number().optional(),
+      priceMin: z.number().optional(),
+    })
+
+    const { categoryName, priceMax, priceMin } = filterProductBodySchema.parse(
+      request.body,
+    )
+
+    const whereClause: any = {}
+
+    if (categoryName !== undefined) {
+      const category = await prisma.category.findUnique({
+        where: { name: categoryName },
+      })
+      whereClause.categoryId = category?.id
+    }
+
+    if (priceMin !== undefined && priceMax !== undefined) {
+      whereClause.price = {
+        gte: priceMin,
+        lte: priceMax,
+      }
+    } else if (priceMin !== undefined) {
+      whereClause.price = {
+        gte: priceMin,
+      }
+    } else if (priceMax !== undefined) {
+      whereClause.price = {
+        lte: priceMax,
+      }
+    }
+
+    try {
+      const productsQuery = {}
+
+      if (Object.keys(whereClause).length > 0) {
+        productsQuery.where = whereClause
+      }
+
+      const products = await prisma.product.findMany(productsQuery)
+
+      return reply.send(products)
+    } catch (error) {
+      console.error('Error fetching products:', error)
+      return reply.status(500).send({ error: 'Failed to fetch products' })
     }
   })
 }

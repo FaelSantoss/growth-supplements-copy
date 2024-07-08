@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { string, z } from 'zod'
+import { z } from 'zod'
 
 import { prisma } from '../server'
 
@@ -54,9 +54,7 @@ export async function categoryRoutes(app: FastifyInstance) {
       })
       return reply.send(updateCategory)
     } catch (error) {
-      return reply
-        .status(500)
-        .send({ error: 'Unable to update category', details: error.message })
+      return reply.status(500).send({ error: 'Unable to update category' })
     }
   })
 }

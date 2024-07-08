@@ -1,15 +1,15 @@
 # Funcionalidades do Back-End
 
 ## Autenticação e Autorização
-- [ X ] **Registro de Usuário**: Endpoint para criação de novos usuários. Inclui validação de dados de entrada como e-mail e senha.
-- [ X ] **Login de Usuário**: Endpoint para autenticação de usuários, gerando e gerenciando tokens JWT para sessões.
-- [ X ] **Recuperação de Senha**: Endpoint para solicitação de redefinição de senha.
-- [ X ] **Autorização**: Middleware para verificar permissões de acesso em rotas protegidas.
+- [X] **Registro de Usuário**: Endpoint para criação de novos usuários. Inclui validação de dados de entrada como e-mail e senha.
+- [X] **Login de Usuário**: Endpoint para autenticação de usuários, gerando e gerenciando tokens JWT para sessões.
+- [X] **Recuperação de Senha**: Endpoint para solicitação de redefinição de senha.
+- [X] **Autorização**: Middleware para verificar permissões de acesso em rotas protegidas.
 
 ## Gestão de Produtos
-- [ X ] **CRUD de Produtos**: Endpoints para criação, leitura, atualização e exclusão de produtos, incluindo validação de dados.
-- [ X ] **Categorias de Produtos**: Endpoints para gerenciamento de categorias (criação, leitura, atualização, exclusão).
-- [ ] **Busca e Filtros de Produtos**: Endpoint para busca de produtos com filtros por categoria, preço, popularidade, etc.
+- [X] **CRUD de Produtos**: Endpoints para criação, leitura, atualização e exclusão de produtos, incluindo validação de dados.
+- [X] **Categorias de Produtos**: Endpoints para gerenciamento de categorias (criação, leitura, atualização, exclusão).
+- [X] **Busca e Filtros de Produtos**: Endpoint para busca de produtos com filtros por categoria, preço.
 
 ## Carrinho de Compras
 - [ ] **Gerenciamento de Carrinho**: Endpoints para adicionar, atualizar e remover itens do carrinho, com cálculo dinâmico do total.
