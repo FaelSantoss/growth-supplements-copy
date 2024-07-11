@@ -1,7 +1,12 @@
+import Header from "./components/Header"
+import ProductsList from "./components/ProductsList"
+
 function App() {
   return (
     <>
-      <h1>hello word</h1>
+      <Header />
+      <ProductsList />
+      <img src="packwheydesk.jpg" alt="" />
     </>
   )
 }
