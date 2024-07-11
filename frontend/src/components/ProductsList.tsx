@@ -10,24 +10,35 @@ interface Product {
   categoryId: number;
 }
 
-const ProductsList: React.FC = () => {
+interface ProductsListProps {
+  categoryName: string;
+}
+
+const ProductsList: React.FC<ProductsListProps> = ({ categoryName }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/products/')
-      .then(response => response.json())
-      .then((data: Product[]) => setProducts(data))
-      .catch(error => console.error('Error fetching products:', error));
-  }, []);
+    if (categoryName) {
+      fetch('http://localhost:3001/products/filter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ categoryName })
+      })
+        .then(response => response.json())
+        .then((data: Product[]) => setProducts(data))
+        .catch(error => console.error('Error fetching products:', error));
+    }
+  }, [categoryName]);
 
   return (
     <div>
-      <h1>Products</h1>
-      <ul>
-        {products.map(product => (
-          <li key={product.id}>{product.description}</li>
-        ))}
-      </ul>
+      {products.map(product => (
+        <div key={product.id} className="product-item">
+          <a href="#" className="text-gray_200 hover:underline">{product.name}</a>
+        </div>
+      ))}
     </div>
   );
 }
