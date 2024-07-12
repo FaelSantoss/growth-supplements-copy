@@ -1,14 +1,16 @@
-import Header from "./components/Header"
-import ProductsList from "./components/ProductsList"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <ProductsList />
-      <img src="packwheydesk.jpg" alt="" />
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
