@@ -33,14 +33,14 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="bg-blue_primary flex items-center p-3">
-        <img src="/logo.png" alt="logo" />
+        <a href="/"><img src="/logo.png" alt="logo" /></a>
         <SearchBar placeholder="Encontre o suplemento ideal para você" />
         <img className="w-8 h-8 mr-3" src="/do-utilizador.png" alt="usuario" />
         <div>
           <p className="text-white">
             <a href="#"><strong>Cadastre-se</strong></a> ou
           </p>
-          <a className="text-white" href="#"><strong>faça seu login</strong></a>
+          <a className="text-white" href="/login"><strong>faça seu login</strong></a>
         </div>
         <img className="w-8 h-8 ml-80" src="/carrinho.png" alt="carrinho" />
       </header>

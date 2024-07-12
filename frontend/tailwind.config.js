@@ -7,7 +7,9 @@ export default {
     extend: {
       colors: {
         blue_primary: '#1899D5',
-        gray_200: '#858585'
+        gray_200: '#858585',
+        gray_100: '#DFDFDF',
+        green_300: '#2CB424'
       },
     },
   },
