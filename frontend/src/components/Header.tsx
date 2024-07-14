@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from '../context/AuthContext';
 import SearchBar from "./SearchBar";
 import ProductsList from "./ProductsList";
 
@@ -10,6 +11,8 @@ interface Category {
 const Header: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const { isAuthenticated, userLogged, logout } = useAuth();
+
   let timeoutId: NodeJS.Timeout;
 
   const openModal = () => {
@@ -36,12 +39,24 @@ const Header: React.FC = () => {
         <a href="/"><img src="/logo.png" alt="logo" /></a>
         <SearchBar placeholder="Encontre o suplemento ideal para você" />
         <img className="w-8 h-8 mr-3" src="/do-utilizador.png" alt="usuario" />
+        { isAuthenticated ? (
+          <>
+            <p className="text-white">Olá, <a href="#"><strong>{userLogged?.name}</strong></a></p>
+            <button 
+            onClick={logout} 
+            className="mx-12 bg-red-500 text-white font-bold rounded focus:outline-none focus:shadow-outline"
+          >
+            Sair
+          </button>
+          </>
+        ): (
         <div>
           <p className="text-white">
             <a href="#"><strong>Cadastre-se</strong></a> ou
           </p>
           <a className="text-white" href="/login"><strong>faça seu login</strong></a>
         </div>
+        )}
         <img className="w-8 h-8 ml-80" src="/carrinho.png" alt="carrinho" />
       </header>
       <header
