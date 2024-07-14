@@ -83,7 +83,11 @@ export async function usersRoutes(app: FastifyInstance) {
       })
 
       if (user && (await bcrypt.compare(password, user.password))) {
-        const token = app.jwt.sign({ id: user.id, email: user.email })
+        const token = app.jwt.sign({
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        })
 
         reply.setCookie('token', token, {
           httpOnly: true,
