@@ -1,6 +1,7 @@
 import fastify from 'fastify'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+import cors from '@fastify/cors'
 
 import { PrismaClient } from '@prisma/client'
 
@@ -12,15 +13,9 @@ export const prisma = new PrismaClient()
 
 const app = fastify()
 
-app.addHook('onRequest', (req, reply, done) => {
-  reply.header('Access-Control-Allow-Origin', '*')
-  reply.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-  reply.header('Access-Control-Allow-Headers', 'Content-Type')
-  if (req.method === 'OPTIONS') {
-    reply.send()
-  } else {
-    done()
-  }
+app.register(cors, {
+  origin: 'http://localhost:5173',
+  credentials: true,
 })
 
 app.register(fastifyCookie)
@@ -46,7 +41,7 @@ app.register(categoryRoutes, {
 
 app
   .listen({
-    port: 3000,
+    port: 3001,
   })
   .then(() => {
     console.log('HTTP server running')
