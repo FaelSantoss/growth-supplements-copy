@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
 import { useAuth } from '../context/AuthContext';
+import HeaderLogin from '../components/HeaderLogin';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -34,8 +34,8 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex justify-center m-12 h-screen">
+      <HeaderLogin />
+      <div className="flex justify-center m-24">
         <form 
           onSubmit={handleSubmit} 
           className="bg-white p-6 rounded-lg border-solid border-4 border-blue_primary shadow-lg w-full max-w-md"
@@ -75,7 +75,7 @@ const LoginPage: React.FC = () => {
               Entrar
             </button>
             <a 
-              href="#" 
+              href="/reset-password" 
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
             >
               Esqueceu a senha?
