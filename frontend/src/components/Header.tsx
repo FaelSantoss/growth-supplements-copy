@@ -52,7 +52,7 @@ const Header: React.FC = () => {
         ): (
         <div>
           <p className="text-white">
-            <a href="#"><strong>Cadastre-se</strong></a> ou
+            <a href="/register"><strong>Cadastre-se</strong></a> ou
           </p>
           <a className="text-white" href="/login"><strong>faça seu login</strong></a>
         </div>
