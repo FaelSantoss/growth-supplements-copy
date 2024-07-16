@@ -60,8 +60,22 @@ export async function usersRoutes(app: FastifyInstance) {
           password: hashedPassword,
         },
       })
-      reply.send(newUser)
-      return newUser
+      if (newUser) {
+        const token = app.jwt.sign({
+          id: newUser.id,
+          email: newUser.email,
+          name: newUser.name,
+        })
+
+        reply.setCookie('token', token, {
+          httpOnly: true,
+          secure: true,
+          path: '/',
+          sameSite: 'None',
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+        })
+        return reply.send({ token })
+      }
     } catch (error) {
       reply.status(500).send({ error: 'Unable to create user' })
     }
