@@ -71,3 +71,13 @@ model OrderItem {
   orderId           Int
   order             Order     @relation(fields: [orderId], references: [id])
 }
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  email     String
+  token     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email], name: "email_index")
+}
