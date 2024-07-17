@@ -9,7 +9,9 @@ export default {
         blue_primary: '#1899D5',
         gray_200: '#858585',
         gray_100: '#DFDFDF',
-        green_300: '#2CB424'
+        gray_50: '#b5a26f',
+        green_300: '#00cf00',
+        green_800: '#067215',
       },
     },
   },

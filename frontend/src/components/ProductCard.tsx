@@ -1,5 +1,6 @@
 import { useState } from "react";
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   id: number;
@@ -15,18 +16,19 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product: { name, imageUrl, price, description } }) => {
   const [showModal, setShowModal] = useState(false);
-  let timeoutId: NodeJS.Timeout;
+  const navigate = useNavigate()
 
   const openModal = () => {
-    clearTimeout(timeoutId);
     setShowModal(true);
   };
 
   const closeModal = () => {
-    timeoutId = setTimeout(() => {
       setShowModal(false);
-    }, 200);
   };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    navigate(`/product/${name}`)
+  }
 
   return (
     <div 
@@ -42,7 +44,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product: { name, imageUrl, pr
           <span className="text-2xl m-4 font-semibold">R${price.toFixed(2)}</span>
         )}
         {showModal && (
-          <button className="bg-green_300 text-white font-semibold py-2 w-full">COMPRAR</button>
+          <button 
+          onClick={handleSubmit} 
+          className="bg-green_300 text-white font-semibold py-2 w-full">
+            COMPRAR
+          </button>
         )}
       </div>
     </div>

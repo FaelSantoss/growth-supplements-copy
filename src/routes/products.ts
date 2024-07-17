@@ -118,18 +118,31 @@ export async function productRoutes(app: FastifyInstance) {
     }
   })
 
+  app.get('/:productName', async (request, reply) => {
+    const { productName } = request.params
+
+    const product = await prisma.product.findFirst({
+      where: { name: productName },
+    })
+    return product
+  })
+
   app.post('/filter', async (request, reply) => {
     const filterProductBodySchema = z.object({
+      productName: z.string().optional(),
       categoryName: z.string().optional(),
       priceMax: z.number().optional(),
       priceMin: z.number().optional(),
     })
 
-    const { categoryName, priceMax, priceMin } = filterProductBodySchema.parse(
-      request.body,
-    )
+    const { productName, categoryName, priceMax, priceMin } =
+      filterProductBodySchema.parse(request.body)
 
     const whereClause: any = {}
+
+    if (productName !== undefined) {
+      whereClause.name = productName
+    }
 
     if (categoryName !== undefined) {
       const category = await prisma.category.findUnique({
