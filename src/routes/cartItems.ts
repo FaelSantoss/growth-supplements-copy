@@ -7,24 +7,32 @@ export async function cartItemsRoutes(app: FastifyInstance) {
     const createCartItemSchema = z.object({
       quantity: z.number().min(1),
       productId: z.number(),
-      cartId: z.number(),
+      userId: z.number(),
     })
 
-    const { quantity, productId, cartId } = createCartItemSchema.parse(
+    const { quantity, productId, userId } = createCartItemSchema.parse(
       request.body,
     )
-
     try {
-      const newCartItem = await prisma.cartItem.create({
-        data: {
-          quantity,
-          productId,
-          cartId,
-        },
+      const cart = await prisma.cart.findUnique({
+        where: { userId },
       })
-      return reply.send(newCartItem)
+      try {
+        if (cart !== null) {
+          const newCartItem = await prisma.cartItem.create({
+            data: {
+              quantity,
+              productId,
+              cartId: cart?.id,
+            },
+          })
+          return reply.send(newCartItem)
+        }
+      } catch (error) {
+        return reply.status(500).send({ error: 'Error adding item to cart' })
+      }
     } catch (error) {
-      return reply.status(500).send({ error: 'Error adding item to cart' })
+      return reply.status(500).send({ error: 'Cart not found' })
     }
   })
 
