@@ -12,7 +12,7 @@
 - [X] **Busca e Filtros de Produtos**: Endpoint para busca de produtos com filtros por categoria, preço.
 
 ## Carrinho de Compras
-- [ ] **Gerenciamento de Carrinho**: Endpoints para adicionar, atualizar e remover itens do carrinho, com cálculo dinâmico do total.
+- [X] **Gerenciamento de Carrinho**: Endpoints para adicionar, atualizar e remover itens do carrinho, com cálculo dinâmico do total.
 
 ## Pedido e Checkout
 - [ ] **Processamento de Pedidos**: Endpoint para criação de novos pedidos, validando dados de entrega e pagamento.

@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Header />
-      <img src="packwheydesk.jpg" alt="" />
+      <img className="w-full" src="packwheydesk.jpg" alt="" />
       <div className="flex justify-center items-center border-2 rounded-lg border-gray_100 my-14 mx-4">
         <h1 className="text-3xl font-bold p-12">Conheça os suplementos que transformarão seus resultados</h1>
       </div>
