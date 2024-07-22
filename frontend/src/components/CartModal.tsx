@@ -28,6 +28,8 @@ const CartModal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
   const [itemsCart, setItemsCart] = useState<ItemCart[]>([]);
   const [qntItems, setQntItems] = useState(0);
   const [amount, setAmout] = useState(0);
+  const [animationClass, setAnimationClass] = useState('animate-slide-left');
+  const [shouldRender, setShouldRender] = useState(isVisible);
   const { userLogged } = useAuth();
 
   useEffect(() => {
@@ -119,13 +121,28 @@ const CartModal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
     }
   };
 
-  if (!isVisible) return null;
+  const handleClose = () => {
+    setAnimationClass('animate-slide-right');
+    setTimeout(() => {
+      setShouldRender(false);
+      onClose();
+    }, 200);
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      setShouldRender(true);
+      setAnimationClass('animate-slide-left');
+    }
+  }, [isVisible]);
+
+  if (!shouldRender) return null;
 
   return (
     <div className="relative">
       <div
         id="cart-modal"
-        className="fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg p-4 transition-transform transform translate-x-0"
+        className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg p-4 transition-transform transform ${animationClass}`}
       >
         <h2 className="text-xl text-center font-bold mb-4">Itens no Carrinho ({qntItems})</h2>
         <div className="mb-4">
@@ -143,7 +160,7 @@ const CartModal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
                 <div className="ml-4">
                   <div className="flex justify-around">
                     <p className="font-semibold mr-20">{item.product.name}</p>
-                    <button className="" onClick={() => handleDelete(item.id)}>
+                    <button onClick={() => handleDelete(item.id)}>
                       <img className="w-4 h-4 ml-10" src="/lixeira.png" alt="lixeira" />
                     </button>
                   </div>
@@ -180,7 +197,7 @@ const CartModal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
         </button>
         <button 
           className="w-full bg-gray-300 text-gray-700 py-2 rounded mt-2"
-          onClick={onClose}
+          onClick={handleClose}
         >
           Escolher mais produtos
         </button>

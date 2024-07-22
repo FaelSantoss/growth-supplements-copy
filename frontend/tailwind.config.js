@@ -14,6 +14,20 @@ export default {
         green_800: '#067215',
       },
     },
+    animation: {
+      'slide-left': 'slide-left 0.2s ease-out',
+      'slide-right': 'slide-right 0.2s ease-in',
+    },
+    keyframes: {
+      'slide-left': {
+        '0%': { transform: 'translateX(100%)' },
+        '100%': { transform: 'translateX(0)' },
+      },
+      'slide-right': {
+        '0%': { transform: 'translateX(0)' },
+        '100%': { transform: 'translateX(100%)' },
+      },
+    },
   },
   plugins: [],
-}
+};
