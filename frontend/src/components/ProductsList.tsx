@@ -19,6 +19,10 @@ const ProductsList: React.FC<ProductsListProps> = ({ categoryName }) => {
 
   useEffect(() => {
     if (categoryName) {
+    const cachedProducts = localStorage.getItem(`products_${categoryName}`)
+    if (cachedProducts) {
+      setProducts(JSON.parse(cachedProducts))
+    } else {
       fetch('http://localhost:3001/products/filter', {
         method: 'POST',
         headers: {
@@ -27,8 +31,12 @@ const ProductsList: React.FC<ProductsListProps> = ({ categoryName }) => {
         body: JSON.stringify({ categoryName })
       })
         .then(response => response.json())
-        .then((data: Product[]) => setProducts(data))
+        .then((data: Product[]) => {
+          setProducts(data)
+          localStorage.setItem(`products_${categoryName}`, JSON.stringify(data))
+        })
         .catch(error => console.error('Error fetching products:', error));
+    }
     }
   }, [categoryName]);
 

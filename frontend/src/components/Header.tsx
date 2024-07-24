@@ -12,16 +12,39 @@ interface Category {
 const Header: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [qntItems, setQntItems] = useState(0);
   const { isAuthenticated, userLogged, logout } = useAuth();
 
   const openModal = (modalName: string) => setActiveModal(modalName);
   const closeModal = () => setActiveModal(null);
-  
+
   useEffect(() => {
-    fetch('http://localhost:3001/category/')
-      .then(response => response.json())
-      .then((data: Category[]) => setCategories(data))
-      .catch(error => console.log('Error fetching categories:', error));
+    if (userLogged?.id) {
+      fetch(`http://localhost:3001/cart-items/${userLogged.id}`)
+        .then(response => response.json())
+        .then(data => setQntItems(data.length))
+        .catch(error => console.log('Error fetching cart items:', error));
+    }
+  }, [userLogged])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const cachedCategories = localStorage.getItem('categories');
+      if (cachedCategories) {
+        setCategories(JSON.parse(cachedCategories));
+      } else {
+        try {
+          const response = await fetch('http://localhost:3001/category/');
+          const data: Category[] = await response.json();
+          setCategories(data);
+          localStorage.setItem('categories', JSON.stringify(data));
+        } catch (error) {
+          console.log('Error fetching categories:', error);
+        }
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   return (
@@ -48,7 +71,14 @@ const Header: React.FC = () => {
             <a className="text-white" href="/login"><strong>faça seu login</strong></a>
           </div>
         )}
-        <a onClick={() => openModal('cart')} className="cursor-pointer"><img className="w-8 h-8 ml-80" src="/carrinho.png" alt="carrinho" /></a>
+          <div className="relative cursor-pointer" onClick={() => openModal('cart')}>
+          <img className="w-8 h-8 ml-80" src="/carrinho.png" alt="carrinho" />
+
+          <span
+            className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 ml-4 text-sm font-bold leading-none text-white bg-black rounded-full">
+              {qntItems}
+          </span>
+        </div>
       </header>
 
       <header
