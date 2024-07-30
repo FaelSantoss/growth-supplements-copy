@@ -36,4 +36,17 @@ export async function addressRoutes(app: FastifyInstance) {
       return reply.status(500).send({ error: 'Error create address' })
     }
   })
+
+  app.get('/:id', async (request, reply) => {
+    const { id } = request.params as { id: string }
+
+    try {
+      const address = await prisma.address.findMany({
+        where: { userId: parseInt(id, 10) },
+      })
+      return reply.send(address)
+    } catch (error) {
+      return reply.status(500).send({ error: 'Error fetching address' })
+    }
+  })
 }
