@@ -76,6 +76,12 @@ export async function usersRoutes(app: FastifyInstance) {
           sameSite: 'None',
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
+
+        await prisma.cart.create({
+          data: {
+            userId: newUser.id,
+          },
+        })
         return reply.send({ token })
       }
     } catch (error) {

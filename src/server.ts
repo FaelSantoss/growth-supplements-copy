@@ -10,6 +10,7 @@ import { productRoutes } from './routes/products'
 import { categoryRoutes } from './routes/category'
 import { cartRoutes } from './routes/cart'
 import { cartItemsRoutes } from './routes/cartItems'
+import { addressRoutes } from './routes/address'
 
 export const prisma = new PrismaClient()
 
@@ -47,6 +48,10 @@ app.register(cartRoutes, {
 
 app.register(cartItemsRoutes, {
   prefix: 'cart-items',
+})
+
+app.register(addressRoutes, {
+  prefix: 'address',
 })
 
 app
