@@ -10,8 +10,12 @@ export default {
         gray_200: '#858585',
         gray_100: '#DFDFDF',
         gray_50: '#b5a26f',
+        gray_30: '#f1f1f1',
         green_300: '#00cf00',
+        green_500: '#2ab523',
         green_800: '#067215',
+        red_700: '#e2002e',
+        yellow_600: '#f9a825',
       },
     },
     animation: {

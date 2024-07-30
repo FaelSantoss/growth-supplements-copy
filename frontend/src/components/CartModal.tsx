@@ -153,7 +153,7 @@ const CartModal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
             {itemsCart.map((item) => (
               <div key={item.id} className="flex">
                 <img
-                  src={`../public/${item.product.imageUrl}`}
+                  src={`/${item.product.imageUrl}`}
                   alt="Produto"
                   className="w-24 h-32 object-cover"
                 />
@@ -193,7 +193,7 @@ const CartModal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
           </div>
         </div>
         <button className="w-full bg-green-500 text-white py-2 rounded">
-          Ir para o Carrinho
+          <a href="/finalizeOrder">Fechar Pedido</a>
         </button>
         <button 
           className="w-full bg-gray-300 text-gray-700 py-2 rounded mt-2"

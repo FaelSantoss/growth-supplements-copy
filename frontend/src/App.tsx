@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import RequestPasswordReset from './pages/RequestPasswordReset';
 import PasswordReset from './pages/PasswordReset';
 import ProductPage from './pages/ProductPage';
+import FinalizeOrderPage from './pages/FinalizeOrderPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/reset-password" element={<RequestPasswordReset/>} />
           <Route path="/reset-password/:token" element={<PasswordReset/>} />
           <Route path="/product/:productName" element={<ProductPage/>} />
+          <Route path="/finalizeOrder" element={<FinalizeOrderPage />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -26,7 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product: { name, imageUrl, pr
       setShowModal(false);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = () => {
     navigate(`/product/${name}`)
   }
 
