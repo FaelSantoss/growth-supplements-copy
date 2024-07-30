@@ -14,6 +14,7 @@ model User {
   createdAt         DateTime  @default(now())
   orders            Order[]
   cart              Cart?
+  address           Address[]
 }
 
 model Product {
@@ -80,4 +81,19 @@ model PasswordReset {
   createdAt DateTime @default(now())
 
   @@index([email], name: "email_index")
+}
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  road        String
+  number      String
+  neighborhood String
+  city        String
+  state       String
+  cep         String
+  complement  String?
+  userId   Int
+  user     User  @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "user_idx")
 }
