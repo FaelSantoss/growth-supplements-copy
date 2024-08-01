@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  stock: number;
-  categoryId: number;
-}
+import { Product } from "../types"
 
 interface ProductsListProps {
   categoryName: string;

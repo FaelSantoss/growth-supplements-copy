@@ -1,14 +1,7 @@
 import { useState } from "react";
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-}
+import { Product } from "../types"
 
 interface ProductCardProps {
   product: Product;

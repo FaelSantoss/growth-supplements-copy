@@ -1,23 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  stock: number;
-  categoryId: number;
-}
-
-interface ItemCart {
-  id: number;
-  quantity: number;
-  productId: number;
-  cartId: number;
-  product: Product;
-}
+import { ItemCart } from '../types';
 
 interface ModalProps {
   isVisible: boolean;

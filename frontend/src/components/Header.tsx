@@ -3,11 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import CartModal from '../components/CartModal';
 import SearchBar from "./SearchBar";
 import ProductsList from "./ProductsList";
-
-interface Category {
-  id: number;
-  name: string;
-}
+import { Category } from "../types"
 
 const Header: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);

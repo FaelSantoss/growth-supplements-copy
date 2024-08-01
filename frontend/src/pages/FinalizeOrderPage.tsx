@@ -1,20 +1,9 @@
 import HeaderLogin from "../components/HeaderLogin";
 import { useAuth } from '../context/AuthContext';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import InputMask from 'react-input-mask';
-
-interface CepData {
-  cep: string;
-  logradouro: string;
-  complemento: string;
-  bairro: string;
-  localidade: string;
-  uf: string;
-  ibge: string;
-  gia: string;
-  ddd: string;
-  siafi: string;
-}
+import { CepData, Address } from '../types';
+import debounce from 'lodash.debounce';
 
 const FinalizeOrderPage: React.FC = () => {
   const { userLogged } = useAuth();

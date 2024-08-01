@@ -3,24 +3,7 @@ import CartModal from '../components/CartModal';
 import Header from '../components/Header';
 import { useParams } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  stock: number;
-  categoryId: number;
-}
-
-interface ItemCart {
-  id: number;
-  quantity: number;
-  productId: number;
-  cartId: number;
-  product: Product;
-}
+import { Product, ItemCart } from "../types"
 
 const ProductPage: React.FC = () => {
   const { productName } = useParams<{ productName: string }>();
