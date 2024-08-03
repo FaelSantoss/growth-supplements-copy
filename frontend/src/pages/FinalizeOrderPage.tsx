@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import InputMask from 'react-input-mask';
 import { CepData, Address } from '../types';
 import debounce from 'lodash.debounce';
+import { ItemCart } from '../types';
 
 const FinalizeOrderPage: React.FC = () => {
   const { userLogged } = useAuth();
@@ -15,6 +16,8 @@ const FinalizeOrderPage: React.FC = () => {
   const [complement, setComplement] = useState<string>('');
   const [address, setAddress] = useState<Address[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+  const [itemsCart, setItemsCart] = useState<ItemCart[]>([]); 
+  const [amount, setAmout] = useState(0);
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -113,6 +116,25 @@ const FinalizeOrderPage: React.FC = () => {
       .catch(error => console.error('Error during register:', error));
   };
 
+  useEffect(() => {
+    if (userLogged?.id) {
+      fetch(`http://localhost:3001/cart-items/${userLogged.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data: ItemCart[]) => setItemsCart(data))
+        .catch((error) => console.error("Error fetching products:", error));
+    }
+  }, [userLogged]);
+
+  useEffect(() => {
+    const totalPrice = itemsCart.reduce((total, item) => total + (item.quantity * item.product.price), 0);
+    setAmout(totalPrice);
+  }, [itemsCart]);
+
   return (
     <>
       <HeaderLogin />
@@ -205,7 +227,55 @@ const FinalizeOrderPage: React.FC = () => {
           </div>
         </div>
         <div className="p-10 mx-3.5 my-7 rounded-md border-2 border-blue_primary w-96 h-4/5"></div>
-        <div className="p-10 mx-3.5 my-7 rounded-md border-2 border-blue_primary w-96 h-4/5"></div>
+        <div className="mx-3.5 my-7 rounded-md w-96 h-4/5">
+        <div className="bg-gray_30">
+          <h1 className="text-center text-blue_primary font-semibold p-3">Resumo do pedido</h1>
+          <div className="mx-4 mb-4">
+          {itemsCart.map((item) => (
+              <div key={item.id} className="flex p-4 bg-white m-1">
+                <img
+                  src={`/${item.product.imageUrl}`}
+                  alt="Produto"
+                  className="w-16 h-24 object-cover mr-4"
+                />
+                <div>
+                  <h1 className="font-semibold">{item.product.name}</h1>
+                  <h2 className="text-sm">R$ {item.product.price}</h2>
+                  <h2 className="text-sm mt-4">Quantidade: {item.quantity}</h2>
+                  <h2 className="text-sm">R$ {item.product.price * item.quantity}</h2>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="m-4">
+          <div className="flex justify-between text-blue_primary text-lg font-bold">
+          <h1>Total</h1>
+          <h1>R$ {amount}</h1>
+          </div>
+          <div className="flex justify-end">
+          <h1 className="text-gray_200 text-lg font-bold line-through mr-2">R$ {amount}</h1>
+          <h1 className="text-green_700 text-lg font-bold">R$ {amount - (amount * 0.10)}</h1>
+          </div>
+          <p className="flex justify-end text-sm text-green_700 pb-6">Valor com 10% de desconto no boleto ou PIX.</p>
+          </div>
+          </div>
+          <div className="bg-gray_30 flex p-2 items-center my-2">
+            <img src="/circulo.png" alt="" className="w-4 h-4" />
+            <p className="text-gray_200 text-xs"> Possuímos o seu produto em estoque e ele chegará rápido até você.</p>
+          </div>
+          <div className="bg-gray_30 flex p-2 items-center my-2">
+            <img src="/circulo.png" alt="" className="w-4 h-4" />
+            <p className="text-gray_200 text-xs"> Produtos com padrão europeu de qualidade.</p>
+          </div>
+          <div className="bg-gray_30 flex p-2 items-center my-2">
+            <img src="/circulo.png" alt="" className="w-4 h-4" />
+            <p className="text-gray_200 text-xs">  Máquinas da fábrica semanalmente verificadas.</p>
+          </div>
+          <div className="bg-gray_30 flex p-2 items-center my-2">
+            <img src="/circulo.png" alt="" className="w-4 h-4" />
+            <p className="text-gray_200 text-xs"> Produtos aprovados em todos os laudos.</p>
+          </div>
+        </div>
       </div>
     </>
   );

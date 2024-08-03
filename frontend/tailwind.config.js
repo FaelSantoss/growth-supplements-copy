@@ -13,6 +13,7 @@ export default {
         gray_30: '#f1f1f1',
         green_300: '#00cf00',
         green_500: '#2ab523',
+        green_700: '#4aae51',
         green_800: '#067215',
         red_700: '#e2002e',
         yellow_600: '#f9a825',
